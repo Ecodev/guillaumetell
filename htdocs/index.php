@@ -40,9 +40,6 @@ if ($langueCourante == 'de') {
 }
 
 $action = '';
-if (isset($_GET['corriger'])) {
-    $action = 'corriger';
-}
 if (isset($_GET['correction'])) {
     $action = 'correction';
 }
@@ -165,97 +162,6 @@ if ($action == 'correction') {
     echo "<a href=\"index.php\">" . $langue['Recommencer le quizz'] . "</a>";
     echo "</p>";
     ?>
-            </div>
-            <p id="LienStatistiques"><a href="index.php?stat">Stat</a></p>
-        </body>
-    </html>
-
-    <?php
-
-} elseif ($action == 'corriger') {
-    ?>
-
-    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-        <head>
-            <title>Guillaume Tell</title>
-            <link rel="stylesheet" media="screen" type="text/css" title="Design" href="style.css" />
-            <script type="text/javascript" src="jquery-1.6.2.min.js"></script>
-            <script type="text/javascript" src="toto.js"></script>
-            <script src="jquery.metadata.js" type="text/javascript"></script>
-            <script src="jquery.validate.js" type="text/javascript"></script>
-
-            <meta http-equiv="refresh" content="30;url=index.php">
-        </head>
-
-        <body>
-            <div class="triche">
-
-                <?php
-                $id_user = addUser();
-
-    $reponseCorrectesHtml = "";
-
-    foreach ($questions as $id_question => $question) { // Boucle qui survole toutes les questions
-                    $reponse = $_POST['question_' . $id_question];
-
-                    // echo "Q".$id_question." : ".$reponse."\n"; // debug
-
-                    if ($reponse) {
-                        saveAnswer($id_question, $reponse, $id_user);
-                    }
-
-        $reponseCorrectesHtml .= " <div id=\"question_" . $question['id_question'] . "\" class=\"question\"> ";
-        $reponseCorrectesHtml .= " <h2> " . $question["libelle"] . " </h2> ";
-        $reponseCorrectesHtml .= " <p><img class=\"pommePuce\" src=\"pomme.png\" alt=\"pomme\" style=\"width: 25px;\" /><span class=\"reponsePomme\">    " . rightAnswer($id_question) . "</span></p> ";
-        $reponseCorrectesHtml .= "</div>";
-    }
-
-                // score personnel:
-
-                $query = "SELECT * from reponse where id_utilisateur=" . $id_user;
-
-    $result = $db->query($query);
-
-    $userAnswers = $db->getAssocArrays($result);
-
-    $reponsesJustes = 0;
-    $reponsesFausses = 0;
-    foreach ($questions as $id_question => $question) { // Boucle qui survole toutes les questions
-                    if ($question['reponse'] == $userAnswers[$id_question - 1]['valeur']) {
-                        $reponsesJustes++;
-                    } else {
-                        $reponsesFausses++;
-                    }
-    }
-
-    echo "<div class=\"resultats\">";
-    echo "<h1>Score</h1>";
-    echo "<p>" . $langue['Votre score est de'] . ": ";
-    echo "<strong class=\"score\">" . $reponsesJustes . "/" . count($questions) . "</strong></p>";
-
-    if ($reponsesJustes == count($questions)) {
-        echo "<p> <em class=\"conseil\">" . $langue["bien"] . "</em></p>";
-    } elseif ($reponsesJustes >= $reponsesFausses && $reponsesJustes < count($questions)) {
-        echo "<p> <em class=\"conseil\">" . $longue["moyen"] . "</em></p>";
-    } elseif ($reponsesJustes < $reponsesFausses) {
-        echo "<p> <em class=\"conseil\">" . $longue["nul"] . "</em></p>";
-    }
-    echo "</div>";
-
-    echo "<h1>" . $langue['Voici les bonnes réponses...'] . "</h1>";
-
-                // affiche les bonnes réponses
-                echo $reponseCorrectesHtml;
-
-    echo "<p class=\"boutonRecommencer\">";
-    echo "<a href=\"index.php\">" . $langue['Recommencer le quizz'] . "</a>";
-    echo "</p>";
-
-                //	echo "<a href=\"index.php?score=".$id_user."\">Voir votre score...</a>";
-                ?>
             </div>
             <p id="LienStatistiques"><a href="index.php?stat">Stat</a></p>
         </body>
