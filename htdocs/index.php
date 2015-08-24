@@ -13,7 +13,7 @@ date_default_timezone_set('Europe/Zurich');
 include 'DBMysql.php';
 include 'questionsManager.php';
 
-$db = require 'database.php';
+$db = require '../database.php';
 
 // si une langue est définie dans un cookie.. utilise celle-ci
 if (isset($_COOKIE['lang'])) {
