@@ -1,0 +1,92 @@
+﻿body {
+	font-family: "Helvetica", "Arial", sans-serif; 
+	font-size: 21px;
+	margin: 0;
+	padding: 0;
+	margin-bottom: 100px;
+/*	background-image: url("pommes.jpg");*/
+}
+
+div ul{
+	list-style-type: none;
+}
+
+/*.triche {
+	padding-top: 15px;
+	padding-left: 10px;
+	padding-bottom: 15px;
+	padding-right: 10px;
+}*/
+
+.triche{
+	padding: 0;
+	margin: auto;
+	margin-top: 5px;
+	width: 75%;
+}
+
+h1 {
+	text-align: center;	
+	font-family: "Lucida Grande";
+	font-size: 40px;
+	color: red;
+}
+
+h2 {
+	font-size: 20px;
+}
+
+.score{
+	font-size: 40px;
+}
+
+/*  validation */
+
+* { font-family: Verdana; font-size: 96%; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; padding-top: 10px; }
+p { clear: both; }
+/*.submit { margin-left: 12em; }*/
+em { font-weight: bold; padding-right: 1em; vertical-align: top; }
+
+label.error { display: none; }	
+
+.boutonCorriger{
+	font-size: 30px;
+	width: 20%;
+	margin: auto;
+}
+.boutonRecommencer{
+	font-size: 30px;
+	width: 45%;
+	margin: auto;
+}
+
+#blocPortraitGuillaume{
+	width: 449px;
+	margin: auto;
+}
+em.conseil{
+	font-weight: normal;
+}
+#LienStatistiques{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+#LienStatistiques a{
+	color: #fff;
+}
+.juste{
+	color: #5a5;
+	font-weight: bold;
+}
+.faux{
+	color: #f00;
+	text-decoration:line-through;
+}
+.neutre{
+	color: #aaa;
+}
+#blocLangue{
+ padding-left: 3px;	
+}
