@@ -1,4 +1,3 @@
-﻿$(document).ready(function(){
-	$("#commentForm").validate();
+$(document).ready(function() {
+    $("#commentForm").validate();
 });
-	
