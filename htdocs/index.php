@@ -78,33 +78,34 @@ if ($action == 'correction') {
 
                 $id_user = addUser();
 
-    foreach ($questions as $id_question => $question) { // Boucle qui survole toutes les questions
+                // Boucle qui survole toutes les questions
+                foreach ($questions as $id_question => $question) {
                     $reponse = $_POST['question_' . $id_question];
 
                     // echo "Q".$id_question." : ".$reponse."\n"; // debug
                     if ($reponse) {
                         saveAnswer($id_question, $reponse, $id_user);
                     }
-    }
+                }
 
                 // on obtient les réponses de l'utilisateur dans un tableau
                 $query = "SELECT * from reponse where id_utilisateur=" . $id_user;
-    $result = $db->query($query);
-    $userAnswers = $db->getAssocArrays($result);
+                $result = $db->query($query);
+                $userAnswers = $db->getAssocArrays($result);
 
                 // on affiche une page avec la correction
 
                 $reponsesJustes = 0;
-    $reponsesFausses = 0;
+                $reponsesFausses = 0;
 
-    $htmlOutput = "";
+                $htmlOutput = "";
 
-    foreach ($questions as $id_question => $question) { // Boucle qui survole toutes les questions
+                foreach ($questions as $id_question => $question) { // Boucle qui survole toutes les questions
                     $htmlOutput .= " <div id=\"question_" . $id_question . "\" class=\"question\"> ";
-        $htmlOutput .= " <h2> " . $question["libelle"] . " </h2> ";
+                    $htmlOutput .= " <h2> " . $question["libelle"] . " </h2> ";
 
-        $idChoixReponse = $userAnswers[$id_question - 1]['valeur'];
-        $idReponseCorrecte = $question['reponse'];
+                    $idChoixReponse = $userAnswers[$id_question - 1]['valeur'];
+                    $idReponseCorrecte = $question['reponse'];
 
                     // compte les bonnes réponses
                     if ($idChoixReponse == $idReponseCorrecte) {
@@ -116,7 +117,7 @@ if ($action == 'correction') {
                     // affiche les choix et leur états
                     $htmlOutput .= "<ul>";
 
-        foreach ($question["choix"] as $key => $choice) { // boucle qui survole tout les choix de réponse
+                    foreach ($question["choix"] as $key => $choice) { // boucle qui survole tout les choix de réponse
                         $htmlOutput .= "<li>";
 
                         // si la réponse est correcte => vert
@@ -133,42 +134,41 @@ if ($action == 'correction') {
                             }
                         }
 
-            $htmlOutput .= "</li>";
-        }
-        $htmlOutput .= "</ul>";
+                        $htmlOutput .= "</li>";
+                    }
+                    $htmlOutput .= "</ul>";
 
-        $htmlOutput .= "</div>";
-    }
+                    $htmlOutput .= "</div>";
+                }
 
                 // score personnel
 
                 echo "<div class=\"resultats\">";
-    echo "<h1>" . $langue['corrections'] . "</h1>";
-    echo "<p>" . $langue['Votre score est de'] . ": ";
-    echo "<strong class=\"score\">" . $reponsesJustes . "/" . count($questions) . "</strong></p>";
+                echo "<h1>" . $langue['corrections'] . "</h1>";
+                echo "<p>" . $langue['Votre score est de'] . ": ";
+                echo "<strong class=\"score\">" . $reponsesJustes . "/" . count($questions) . "</strong></p>";
 
-    if ($reponsesJustes == count($questions)) {
-        echo "<p> <em class=\"conseil\">" . $langue["bien"] . "</em></p>";
-    } elseif ($reponsesJustes >= $reponsesFausses && $reponsesJustes < count($questions)) {
-        echo "<p> <em class=\"conseil\">" . $longue["moyen"] . "</em></p>";
-    } elseif ($reponsesJustes < $reponsesFausses) {
-        echo "<p> <em class=\"conseil\">" . $longue["nul"] . "</em></p>";
-    }
-    echo "</div>";
+                if ($reponsesJustes == count($questions)) {
+                    echo "<p> <em class=\"conseil\">" . $langue["bien"] . "</em></p>";
+                } elseif ($reponsesJustes >= $reponsesFausses && $reponsesJustes < count($questions)) {
+                    echo "<p> <em class=\"conseil\">" . $longue["moyen"] . "</em></p>";
+                } elseif ($reponsesJustes < $reponsesFausses) {
+                    echo "<p> <em class=\"conseil\">" . $longue["nul"] . "</em></p>";
+                }
+                echo "</div>";
 
-    echo $htmlOutput;
+                echo $htmlOutput;
 
-    echo "<p class=\"boutonRecommencer\">";
-    echo "<a href=\"index.php\">" . $langue['Recommencer le quizz'] . "</a>";
-    echo "</p>";
-    ?>
+                echo "<p class=\"boutonRecommencer\">";
+                echo "<a href=\"index.php\">" . $langue['Recommencer le quizz'] . "</a>";
+                echo "</p>";
+                ?>
             </div>
             <p id="LienStatistiques"><a href="index.php?stat">Stat</a></p>
         </body>
     </html>
 
     <?php
-
 } elseif ($action == 'score') {
     ?>
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -197,42 +197,41 @@ if ($action == 'correction') {
                     $id_user = $_GET['score'];
                 }
 
-    $query = "SELECT * from reponse where id_utilisateur=" . $id_user;
+                $query = "SELECT * from reponse where id_utilisateur=" . $id_user;
 
-    $result = $db->query($query);
+                $result = $db->query($query);
 
-    $userAnswers = $db->getAssocArrays($result);
+                $userAnswers = $db->getAssocArrays($result);
 
-    $reponsesJustes = 0;
-    $reponsesFausses = 0;
-    foreach ($questions as $id_question => $question) { // Boucle qui survole toutes les questions
+                $reponsesJustes = 0;
+                $reponsesFausses = 0;
+                foreach ($questions as $id_question => $question) { // Boucle qui survole toutes les questions
                     if ($question['reponse'] == $userAnswers[$id_question - 1]['valeur']) {
                         $reponsesJustes++;
                     } else {
                         $reponsesFausses++;
                     }
-    }
+                }
 
-    echo "<div class=\"resultats\">";
-    echo "<p>Votre score est de: </p>";
-    echo "<h2 class=\"score\">" . $reponsesJustes . "/" . count($questions) . "</h2>";
-    if ($reponsesJustes == count($questions)) {
-        echo "<p> Vous connaissez déjà Guillaume Tell sur le bout des doigts! Espérons que l'exposition ne soit pas trop longue...!</p>";
-    } elseif ($reponsesJustes >= $reponsesFausses && $reponsesJustes < count($questions)) {
-        echo "<p> Vous avez déjà de bonnes bases, profitez de l'exposition pour les améliorer!</p>";
-    } elseif ($reponsesJustes < $reponsesFausses) {
-        echo "<p> L'histoire de Guillaume Tell n'est pas votre fort! Tentez d'améliorez vos connaissances dans cette exposition</p>";
-    }
+                echo "<div class=\"resultats\">";
+                echo "<p>Votre score est de: </p>";
+                echo "<h2 class=\"score\">" . $reponsesJustes . "/" . count($questions) . "</h2>";
+                if ($reponsesJustes == count($questions)) {
+                    echo "<p> Vous connaissez déjà Guillaume Tell sur le bout des doigts! Espérons que l'exposition ne soit pas trop longue...!</p>";
+                } elseif ($reponsesJustes >= $reponsesFausses && $reponsesJustes < count($questions)) {
+                    echo "<p> Vous avez déjà de bonnes bases, profitez de l'exposition pour les améliorer!</p>";
+                } elseif ($reponsesJustes < $reponsesFausses) {
+                    echo "<p> L'histoire de Guillaume Tell n'est pas votre fort! Tentez d'améliorez vos connaissances dans cette exposition</p>";
+                }
 
-    echo "<a href=\"index.php\">Jouer!</a>";
+                echo "<a href=\"index.php\">Jouer!</a>";
 
-    echo "</div>";
-    ?>
+                echo "</div>";
+                ?>
             </div>
         </body>
     </html>
     <?php
-
 } elseif ($action == 'stat') {
     ?>
 
@@ -252,16 +251,16 @@ if ($action == 'correction') {
                     STATISTIQUES
                 </h1>
 
-                <?php
-                $nbParticipants = getNumberOfPlayers();
+    <?php
+    $nbParticipants = getNumberOfPlayers();
     echo " <p>Il y a eu " . $nbParticipants . " participants </p>";
     foreach ($questions as $id_question => $question) { // Boucle qui survole toutes les questions
-                    echo " <div id=\"question_" . $id_question . "\" class=\"question\"> ";
+        echo " <div id=\"question_" . $id_question . "\" class=\"question\"> ";
         echo " <h2> " . $question["libelle"] . " </h2> ";
 
         echo "<ul>";
         foreach ($question["choix"] as $key => $choice) { // boucle qui survole tout les choix de réponse
-                        $nbReponses = getNumberOfAnswers($id_question, $key);
+            $nbReponses = getNumberOfAnswers($id_question, $key);
             $pourcentage = ($nbReponses / $nbParticipants) * 100;
             echo " <li> " . $nbReponses . " personnes ont trouvé <strong>" . $choice . "</strong>, donc <strong>" . round($pourcentage, 2) . " % </strong></li>";
         }
@@ -280,7 +279,6 @@ if ($action == 'correction') {
 
 
     <?php
-
 } else {
     ?>
 
@@ -310,7 +308,7 @@ if ($action == 'correction') {
 
             <div class="triche">
                 <h1 id="titrePrincipal">
-                    <?php echo $langue['Connaissez-vous Guillaume Tell ?'] ?>
+    <?php echo $langue['Connaissez-vous Guillaume Tell ?'] ?>
                 </h1>
 
                 <div id="blocPortraitGuillaume">
@@ -319,23 +317,23 @@ if ($action == 'correction') {
 
                 <form action="index.php?correction" method="post" id="formulaire" class="cmxform">
 
-                    <?php
-                    foreach ($questions as $id_question => $question) { // Boucle qui survole toutes les questions
-                        echo " <div id=\"question_" . $id_question . "\" class=\"question\"> ";
-                        echo " <h2> " . $question["libelle"] . " </h2> ";
-                        echo "<ul>";
+    <?php
+    foreach ($questions as $id_question => $question) { // Boucle qui survole toutes les questions
+        echo " <div id=\"question_" . $id_question . "\" class=\"question\"> ";
+        echo " <h2> " . $question["libelle"] . " </h2> ";
+        echo "<ul>";
 
-                        foreach ($question["choix"] as $key => $choice) { // boucle qui survole tout les choix de réponse
-                            if ($key == 1) {
-                                echo " <li><label for=\"question_" . $id_question . "_" . $choice . "\"><input type=\"radio\" name=\"question_" . $id_question . "\" id=\"question_" . $id_question . "_" . $choice . "\" value=\"" . $key . "\" class=\"required\" />" . $choice . "</label></li>";
-                            } else {
-                                echo " <li><label for=\"question_" . $id_question . "_" . $choice . "\"><input type=\"radio\" name=\"question_" . $id_question . "\" id=\"question_" . $id_question . "_" . $choice . "\" value=\"" . $key . "\" />" . $choice . "</label></li>";
-                            }
-                        }
-                        echo "</ul>";
-                        echo '<label for="question_' . $id_question . '" class="error">' . $langue["pas de reponse"] . '</label>';
-                        echo "</div>";
-                    }
+        foreach ($question["choix"] as $key => $choice) { // boucle qui survole tout les choix de réponse
+            if ($key == 1) {
+                echo " <li><label for=\"question_" . $id_question . "_" . $choice . "\"><input type=\"radio\" name=\"question_" . $id_question . "\" id=\"question_" . $id_question . "_" . $choice . "\" value=\"" . $key . "\" class=\"required\" />" . $choice . "</label></li>";
+            } else {
+                echo " <li><label for=\"question_" . $id_question . "_" . $choice . "\"><input type=\"radio\" name=\"question_" . $id_question . "\" id=\"question_" . $id_question . "_" . $choice . "\" value=\"" . $key . "\" />" . $choice . "</label></li>";
+            }
+        }
+        echo "</ul>";
+        echo '<label for="question_' . $id_question . '" class="error">' . $langue["pas de reponse"] . '</label>';
+        echo "</div>";
+    }
     ?>
 
                     <p class="boutonCorriger">
@@ -348,6 +346,5 @@ if ($action == 'correction') {
     </html>
 
     <?php
-
 } // if action
 ?>
