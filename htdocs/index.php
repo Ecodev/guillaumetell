@@ -10,7 +10,7 @@ date_default_timezone_set('Europe/Zurich');
 //	header('Content-Type: text/html; charset=UTF-8');
 //	date_default_timezone_set('Europe/Zurich');
 
-include 'dbMysql.php';
+include 'DBMysql.php';
 include 'questionsManager.php';
 
 $db = require 'database.php';
