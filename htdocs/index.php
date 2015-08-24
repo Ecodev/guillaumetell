@@ -40,7 +40,7 @@ if ($langueCourante == 'de') {
 }
 
 $action = '';
-if (isset($_GET['correction'])) {
+if (isset($_GET['correction']) && $_POST) {
     $action = 'correction';
 }
 
